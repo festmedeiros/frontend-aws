@@ -204,8 +204,8 @@ jobs:
         run: |
           echo "DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}"
           echo "REPO_NAME: $REPO_NAME"
-          echo "NEW_VERSION: ${{ needs.build.outputs.new_version }}"
-          IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:${{ needs.build.outputs.new_version }}"
+          echo "NEW_VERSION: ${{ needs.integracao.outputs.new_version }}"
+          IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:${{ needs.buintegracaoild.outputs.new_version }}"
           echo "Imagem completa: $IMAGE"
 
       - name: Efetuar deploy na EC2
@@ -215,8 +215,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            REPO_NAME="${{ needs.build.outputs.repo_name }}"
-            VERSION="${{ needs.build.outputs.new_version }}"
+            REPO_NAME="${{ needs.integracao.outputs.repo_name }}"
+            VERSION="${{ needs.integracao.outputs.new_version }}"
             IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:$VERSION"
 
             echo "Iniciando deploy da imagem: $IMAGE"
