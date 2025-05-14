@@ -226,14 +226,26 @@ jobs:
             sudo systemctl start docker || sudo service docker start
 
             # Verificar container existente
-            CONTAINER_ID=$(docker ps -q --filter "name=$REPO_NAME")
-            if [ -n "$CONTAINER_ID" ]; then
-              echo "Container atual em execução:"
-              docker inspect --format='{{.Config.Image}}' $CONTAINER_ID
-              echo "Parando e removendo container atual..."
-              docker rm -f $REPO_NAME || true
-            else
-              echo "Nenhum container atual encontrado com nome: $REPO_NAME"
+            #CONTAINER_ID=$(docker ps -q --filter "name=$REPO_NAME")
+            #if [ -n "$CONTAINER_ID" ]; then
+            #  echo "Container atual em execução:"
+            #  docker inspect --format='{{.Config.Image}}' $CONTAINER_ID
+            #  echo "Parando e removendo container atual..."
+            #  docker rm -f $REPO_NAME || true
+            #else
+            #  echo "Nenhum container atual encontrado com nome: $REPO_NAME"
+            #fi
+
+            # Parar container em execução, se existir
+            if docker ps -q -f name=$REPO_NAME | grep -q .; then
+              echo "Parando container em execução: $REPO_NAME"
+              docker stop $REPO_NAME
+            fi
+
+            # Remover container parado com mesmo nome, se existir
+            if docker ps -a -q -f name=$REPO_NAME | grep -q .; then
+              echo "Removendo container antigo: $REPO_NAME"
+              docker rm $REPO_NAME
             fi
 
             echo "Removendo imagem local antiga, se existir..."
