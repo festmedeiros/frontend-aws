@@ -167,7 +167,6 @@ jobs:
           echo "Fazendo push da imagem Docker para o Docker Hub ${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:$new_version" 
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:$new_version
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/$REPO_NAME:latest
-
       
       - name: Atualizar versão no package.json
         if: steps.version.outputs.should_deploy == 'true'
