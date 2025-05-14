@@ -18,8 +18,8 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Instalar dependências
-        run: npm install --force
+      #- name: Instalar dependências
+      #  run: npm install --force
 
       - name: Instalar semver
         run: npm install -g semver
